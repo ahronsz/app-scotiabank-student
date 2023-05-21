@@ -1,0 +1,47 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.7'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.scotiabank.service'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// import a BOM
+	implementation platform('io.projectreactor:reactor-bom:2022.0.7')
+	// define dependencies without versions
+	implementation 'io.projectreactor.netty:reactor-netty-core'
+	implementation 'io.projectreactor.netty:reactor-netty-http'
+
+	// database h2
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	implementation 'io.r2dbc:r2dbc-h2'
+	runtimeOnly 'com.h2database:h2'
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+	testCompileOnly 'org.projectlombok:lombok:1.18.26'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+	// mapstruct
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
