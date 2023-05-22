@@ -37,7 +37,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-
+// Configuración del empaquetado del JAR
+jar {
+	enabled = true
+}
 
 tasks.named('test') {
 	useJUnitPlatform()
