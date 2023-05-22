@@ -45,13 +45,11 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public Flux<StudentResponse> list(
-            @Param("condition")
-            @ValueOfEnumStatus(enumClass = ConditionEnum.class) String condition) {
+            @Param("condition") @ValueOfEnumStatus(enumClass = ConditionEnum.class) String condition) {
         return studentService.getStudentsByCondition(condition)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NO_CONTENT)));
     }
 
-    // Exception handler for ConstraintViolationException
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleConstraintViolationException(ConstraintViolationException ex) {

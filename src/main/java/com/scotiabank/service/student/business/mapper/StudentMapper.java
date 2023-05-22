@@ -6,10 +6,8 @@ import com.scotiabank.service.student.model.entity.Student;
 import com.scotiabank.service.student.util.enums.ConditionEnum;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import reactor.util.annotation.Nullable;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Mapper(componentModel = "spring", imports = {LocalDateTime.class, ConditionEnum.class})
 public interface StudentMapper {
