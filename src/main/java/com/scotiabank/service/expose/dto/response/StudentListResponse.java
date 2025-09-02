@@ -1,4 +1,8 @@
 package com.scotiabank.service.expose.dto.response;
 
-public class StudentListResponse {
-}
+import java.util.List;
+
+public record StudentListResponse(
+        int count,
+        List<StudentResponse> students
+) {}

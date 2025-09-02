@@ -1,44 +1,45 @@
 package com.scotiabank.service.student.business.impl;
 
 import com.scotiabank.service.expose.dto.request.StudentRequest;
-import com.scotiabank.service.expose.dto.response.StudentResponse;
+import com.scotiabank.service.expose.dto.response.StudentListResponse;
 import com.scotiabank.service.student.business.StudentService;
 import com.scotiabank.service.student.business.mapper.StudentMapper;
+import com.scotiabank.service.student.exception.ConflictException;
+import com.scotiabank.service.student.model.entity.Student;
 import com.scotiabank.service.student.repository.StudentRepository;
-import com.scotiabank.service.student.util.enums.ConditionEnum;
+import com.scotiabank.service.student.util.enums.StatusEnum;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
+
     private final StudentRepository studentRepository;
-    private final StudentMapper mapper;
+    private final R2dbcEntityTemplate template;
+    private final StudentMapper studentMapper;
 
     @Override
-    public Mono<Void> save(Long id, StudentRequest studentRequest) {
-        return studentRepository.findById(id)
-                .hasElement()
-                .flatMap(found -> {
-                    if (found) {
-                        return Mono.error(new ResponseStatusException(HttpStatus.CONFLICT, "Usuario ya registrado"));
-                    } else {
-                        return studentRepository.save(mapper.toEntity(id, studentRequest)).then();
-                    }
-                });
+    public Mono<Void> save(StudentRequest studentRequest) {
+        return studentRepository.findById(studentRequest.id())
+                .flatMap(existingStudent -> Mono.error(new ConflictException("El estudiante con el id " + studentRequest.id() + " ya existe."))) // Si existe, lanzamos un error
+                .switchIfEmpty(create(studentMapper.toEntity(studentRequest))).then();
     }
 
     @Override
-    public Flux<StudentResponse> getStudentsByCondition(String codition) {
-        if (codition != null) {
-            return studentRepository.getStudentsByCondition(ConditionEnum.findByName(codition))
-                    .map(mapper::toResponse);
-        } else {
-            return studentRepository.findAll().map(mapper::toResponse);
-        }
+    public Mono<StudentListResponse> getStudentsByCondition(String status) {
+        return studentRepository.findByStatus(StatusEnum.findByName(status))
+                .map(studentMapper::toResponse)
+                .collectList()
+                .map(studentMapper::toStudentListResponse);
     }
+
+    private Mono<Void> create(Student student) {
+        return template.insert(Student.class)
+                .using(student)
+                .then();
+    }
+
 }

@@ -1,40 +1,40 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.7.7'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.0'
 }
 
 group = 'com.scotiabank.service'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	// Dependencias de Spring Boot WebFlux
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// database h2
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'io.r2dbc:r2dbc-h2'
 	runtimeOnly 'com.h2database:h2'
 
-	//lombok
 	compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 	testCompileOnly 'org.projectlombok:lombok:1.18.26'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 
-	// mapstruct
-	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	// MapStruct para mapeo entre DTOs y entidades
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final' // Versión compatible con JDK 17
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
-	// mockito
-	testImplementation 'org.mockito:mockito-core:3.12.4'
+	// Mockito para pruebas
+	testImplementation 'org.mockito:mockito-core:4.0.0' // Versión compatible con JDK 17
 
+	// Spring Boot Test Starter para pruebas unitarias y de integración
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test:3.5.2'
 }
 
 // Configuración del empaquetado del JAR

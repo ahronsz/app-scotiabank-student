@@ -1,0 +1,31 @@
+# Sistema de construcción Gradle
+.gradle/
+build/
+
+# Archivos de configuración del wrapper de Gradle
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# Archivos de configuración específicos del usuario
+gradle.properties
+
+# Archivos de log generados por Gradle
+*.log
+
+# Archivos temporales del editor (por ejemplo, IDEs como IntelliJ IDEA, VSCode, Eclipse)
+.idea/
+.vscode/
+*.iml
+
+# Archivos generados por compilación o la ejecución del proyecto
+out/
+target/
+
+# Archivos de dependencia
+*.jar
+*.war
+*.ear
+
+# Archivos de compilación de Kotlin (si estás usando Kotlin)
+*.kotlin_metadata
+/.idea/

@@ -1,23 +1,18 @@
 package com.scotiabank.service.expose.validator;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import java.lang.annotation.Documented;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Documented
-@Constraint(validatedBy = ValueOfEnumValidator.class)
-@Target({ ElementType.PARAMETER, ElementType.FIELD, ElementType.TYPE_PARAMETER })
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = ValueOfEnumValidator.class)
 public @interface ValueOfEnumStatus {
-    String message() default "el parametro/campo condition debe ser ACTIVO o INACTIVO";
-
+    String message() default "Debe ser un valor válido de ConditionEnum (activo o inactivo)";
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
-
-    Class<? extends Enum<?>> enumClass();
 }

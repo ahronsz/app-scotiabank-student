@@ -1,31 +1,17 @@
 package com.scotiabank.service.expose.validator;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.scotiabank.service.student.util.enums.StatusEnum;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnumStatus, CharSequence> {
-    private List<String> acceptedValues;
+public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnumStatus, String> {
 
     @Override
     public void initialize(ValueOfEnumStatus constraintAnnotation) {
-        acceptedValues = Stream.of(constraintAnnotation.enumClass().getEnumConstants())
-                .map(Enum::name)
-                .collect(Collectors.toList());
     }
 
     @Override
-    public boolean isValid(CharSequence charSequence, ConstraintValidatorContext context) {
-        if (charSequence == null) {
-            return true;
-        }
-
-        try {
-            return acceptedValues.contains(charSequence.toString().toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            return false;
-        }
+    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+        return s != null && StatusEnum.findByName(s) != null;
     }
 }

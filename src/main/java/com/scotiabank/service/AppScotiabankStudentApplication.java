@@ -16,7 +16,6 @@ public class AppScotiabankStudentApplication {
 		SpringApplication.run(AppScotiabankStudentApplication.class, args);
 	}
 
-	/*
 	@Bean
 	public ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory) {
 		ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
@@ -26,6 +25,6 @@ public class AppScotiabankStudentApplication {
 				new ResourceDatabasePopulator(new ClassPathResource("data.sql"))
 		));
 		return initializer;
-	}*/
+	}
 
 }
