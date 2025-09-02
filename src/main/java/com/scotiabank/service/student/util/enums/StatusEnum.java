@@ -23,13 +23,4 @@ public enum ConditionEnum {
         }
         return null;
     }
-
-    public static String findByName(Boolean isActive) {
-        for (ConditionEnum value: values()) {
-            if (value.isActive == isActive) {
-                return value.name();
-            }
-        }
-        return null;
-    }
 }
